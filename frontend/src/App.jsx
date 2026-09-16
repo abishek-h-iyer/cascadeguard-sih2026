@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useDashboardStore } from './hooks/useDashboardStore'
-import { mockStore } from './services/mockStore'
+import { dashboardStore } from './services/dashboardStore'
 import { computeStats } from './utils/stats'
 import StatusBar from './components/StatusBar'
 import StatStrip from './components/StatStrip'
@@ -26,18 +26,18 @@ export default function App() {
     <div className="dashboard">
       <StatusBar connection={connection} onOpenSimulator={() => setSimulatorOpen(true)} />
 
-      <StatStrip stats={stats} connection={connection} onSelectZone={mockStore.selectZone} />
+      <StatStrip stats={stats} connection={connection} onSelectZone={dashboardStore.selectZone} />
 
       <div className="dashboard-main">
         <div className="dashboard-main-left">
           <MapPanel
             zones={zones}
             riskViewMode={riskViewMode}
-            onRiskViewModeChange={mockStore.setRiskViewMode}
+            onRiskViewModeChange={dashboardStore.setRiskViewMode}
             selectedZoneId={selectedZoneId}
-            onSelectZone={mockStore.selectZone}
+            onSelectZone={dashboardStore.selectZone}
           />
-          <DownstreamChain zones={zones} selectedZoneId={selectedZoneId} onSelectZone={mockStore.selectZone} />
+          <DownstreamChain zones={zones} selectedZoneId={selectedZoneId} onSelectZone={dashboardStore.selectZone} />
         </div>
 
         <ZoneDetailPanel zone={selectedZone} />
@@ -52,9 +52,9 @@ export default function App() {
           zone={selectedZone}
           sensors={selectedZone.sensors}
           isOverridden={selectedZone.overridden}
-          onChange={(partial) => mockStore.setSensorOverride(selectedZoneId, partial)}
-          onApplyPreset={(preset) => mockStore.setSensorOverride(selectedZoneId, preset)}
-          onReset={() => mockStore.clearOverride(selectedZoneId)}
+          onChange={(partial) => dashboardStore.setSensorOverride(selectedZoneId, partial)}
+          onApplyPreset={(preset) => dashboardStore.setSensorOverride(selectedZoneId, preset)}
+          onReset={() => dashboardStore.clearOverride(selectedZoneId)}
         />
       )}
     </div>

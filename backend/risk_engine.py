@@ -115,6 +115,17 @@ class RiskEngine:
         return "STABLE"
 
 
+    def operational_status(self, alert_level):
+
+        if alert_level == "CRITICAL":
+            return "CRITICAL"
+
+        if alert_level == "LOW":
+            return "SAFE"
+
+        return "WATCH"
+
+
     def evaluate(self, data):
 
         zone_id = data["zone_id"]
@@ -420,6 +431,19 @@ class RiskEngine:
                 )
             },
 
+            "sensors": {
+
+                "rainfall_mm_h": rainfall,
+
+                "soil_moisture": soil,
+
+                "tilt_change_deg": tilt,
+
+                "upstream_rise_m_10m": upstream_rise,
+
+                "downstream_rise_m_10m": downstream_rise
+            },
+
             "sensor_states": {
 
                 "rainfall": rain_state,
@@ -449,6 +473,10 @@ class RiskEngine:
             },
 
             "alert_level": alert_level,
+
+            "operational_status": self.operational_status(
+                alert_level
+            ),
 
             "reasons": reasons,
 
