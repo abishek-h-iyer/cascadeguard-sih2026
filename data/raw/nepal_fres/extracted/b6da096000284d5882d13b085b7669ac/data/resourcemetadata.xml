@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF
+  xmlns:hsterms="https://www.hydroshare.org/terms/"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:dcterms="http://purl.org/dc/terms/"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+>
+  <hsterms:CompositeResource rdf:about="http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac">
+    <dc:creator>
+      <rdf:Description>
+        <hsterms:name>Anuj Siwakoti</hsterms:name>
+        <hsterms:creatorOrder rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">8</hsterms:creatorOrder>
+        <hsterms:organization>Tribhuvan University</hsterms:organization>
+        <hsterms:email>anujsiwakoti@gmail.com</hsterms:email>
+        <hsterms:address></hsterms:address>
+        <hsterms:homepage></hsterms:homepage>
+        <hsterms:phone></hsterms:phone>
+      </rdf:Description>
+    </dc:creator>
+    <dc:rights>
+      <rdf:Description>
+        <hsterms:URL rdf:resource="http://creativecommons.org/licenses/by/4.0/"/>
+        <hsterms:rightsStatement>This resource is shared under the Creative Commons Attribution CC BY.</hsterms:rightsStatement>
+      </rdf:Description>
+    </dc:rights>
+    <dc:description>
+      <rdf:Description>
+        <dcterms:abstract>The data were collected in the Helambu region of central Nepal as part of the "Nepal-FRES" (Frontier Research in Earth Sciences) project to document the impacts of the 2021 Melamchi Flood, aiming to understand its cascading nature, the legacy of the 2015 Gorkha earthquake, and fluvial adjustment to such an extreme sediment transporting event. &#13;
+&#13;
+Polygon KML files of landslides, active river channels, and river terraces were mapped using 50 cm-resolution pre- and post-event Pléiades stereo satellite imagery. This data package comprises:&#13;
+&#13;
+	Melamchi Khola Catchment (study area)&#13;
+	Landslides before the 2015 Gorkha earthquake, between 2015 and 2020, between Nov 2020 and Oct 2021 (Melamchi Flood), and between Oct 2021 and Dec 2023&#13;
+	Obscured areas in which landslide mapping is incomplete due to the existence of clouds and shadow &#13;
+	River channel of Melamchi Khola in Nov 2020 and Oct 2021 (w/ the thalweg line in Oct 2021)&#13;
+	River terraces in Oct 2021&#13;
+	Forested areas in Nov 2020 and Dec 2023</dcterms:abstract>
+      </rdf:Description>
+    </dc:description>
+    <dc:creator>
+      <rdf:Description>
+        <hsterms:description rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1156</hsterms:description>
+        <hsterms:organization>University of Southern California</hsterms:organization>
+        <hsterms:homepage></hsterms:homepage>
+        <hsterms:GoogleScholarID rdf:resource="https://scholar.google.com/citations?user=1i4Nmg4AAAAJ&amp;hl=en"/>
+        <hsterms:hydroshare_user_id rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1156</hsterms:hydroshare_user_id>
+        <hsterms:name>West, A. Joshua</hsterms:name>
+        <hsterms:phone></hsterms:phone>
+        <hsterms:address>CA, US</hsterms:address>
+        <hsterms:creatorOrder rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</hsterms:creatorOrder>
+        <hsterms:ORCID rdf:resource="https://orcid.org/0000-0001-6909-1471"/>
+        <hsterms:email>joshwest@usc.edu</hsterms:email>
+      </rdf:Description>
+    </dc:creator>
+    <dc:creator>
+      <rdf:Description>
+        <hsterms:address></hsterms:address>
+        <hsterms:phone></hsterms:phone>
+        <hsterms:creatorOrder rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">6</hsterms:creatorOrder>
+        <hsterms:organization>University of California at Berkeley, Berkeley</hsterms:organization>
+        <hsterms:name>Dimitrios Zekkos</hsterms:name>
+        <hsterms:email>zekkos@berkeley.edu</hsterms:email>
+        <hsterms:homepage></hsterms:homepage>
+      </rdf:Description>
+    </dc:creator>
+    <dc:subject>sediment</dc:subject>
+    <dc:subject>Melamchi</dc:subject>
+    <dc:coverage>
+      <dcterms:period>
+        <rdf:value>start=2014-11-01T00:00:00; end=2024-01-09T00:00:00</rdf:value>
+      </dcterms:period>
+    </dc:coverage>
+    <dcterms:bibliographicCitation>Chen, C., West, A. J., Clark, M., Hollingsworth, J., Chamlagain, D., Zekkos, D., Bista, S., Siwakoti, A. (2026). Nepal-FRES: 2021 Melamchi Flood Data, HydroShare, https://doi.org/10.4211/hs.b6da096000284d5882d13b085b7669ac</dcterms:bibliographicCitation>
+    <dc:subject>flood</dc:subject>
+    <dc:subject>river</dc:subject>
+    <dc:identifier>
+      <rdf:Description>
+        <hsterms:hydroShareIdentifier rdf:resource="http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac"/>
+      </rdf:Description>
+    </dc:identifier>
+    <dc:subject>Nepal</dc:subject>
+    <dc:creator>
+      <rdf:Description>
+        <hsterms:email>deepakchamlagain73@gmail.com</hsterms:email>
+        <hsterms:name>Chamlagain, Deepak</hsterms:name>
+        <hsterms:homepage></hsterms:homepage>
+        <hsterms:address>BA, NP</hsterms:address>
+        <hsterms:description rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">26935</hsterms:description>
+        <hsterms:hydroshare_user_id rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">26935</hsterms:hydroshare_user_id>
+        <hsterms:creatorOrder rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">5</hsterms:creatorOrder>
+        <hsterms:organization>Tribhuvan University Kathmandu;Tri-Chandra Multiple Campus</hsterms:organization>
+        <hsterms:phone></hsterms:phone>
+      </rdf:Description>
+    </dc:creator>
+    <dc:subject>Himalaya</dc:subject>
+    <dc:type>
+      <rdf:Description rdf:about="http://www.hydroshare.org/terms/CompositeResource">
+        <rdfs:label>Composite Resource</rdfs:label>
+        <rdfs:isDefinedBy rdf:resource="https://www.hydroshare.org/terms/"/>
+      </rdf:Description>
+    </dc:type>
+    <dc:coverage>
+      <dcterms:box>
+        <rdf:value>projection=WGS 84 EPSG:4326; units=Decimal degrees; northlimit=28.1907; eastlimit=85.6295; southlimit=27.8136; westlimit=85.4345</rdf:value>
+      </dcterms:box>
+    </dc:coverage>
+    <dc:creator>
+      <rdf:Description>
+        <hsterms:description rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">26238</hsterms:description>
+        <hsterms:name>Chen, Chan-Mao</hsterms:name>
+        <hsterms:organization>University of Southern California</hsterms:organization>
+        <hsterms:email>chanmaoc@usc.edu</hsterms:email>
+        <hsterms:creatorOrder rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</hsterms:creatorOrder>
+        <hsterms:hydroshare_user_id rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">26238</hsterms:hydroshare_user_id>
+      </rdf:Description>
+    </dc:creator>
+    <dc:creator>
+      <rdf:Description>
+        <hsterms:email>suzubistasb@gmail.com</hsterms:email>
+        <hsterms:name>Sujata Bista</hsterms:name>
+        <hsterms:address></hsterms:address>
+        <hsterms:homepage></hsterms:homepage>
+        <hsterms:phone></hsterms:phone>
+        <hsterms:creatorOrder rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">7</hsterms:creatorOrder>
+        <hsterms:organization>Tribhuvan University</hsterms:organization>
+      </rdf:Description>
+    </dc:creator>
+    <dc:creator>
+      <rdf:Description>
+        <hsterms:hydroshare_user_id rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">26827</hsterms:hydroshare_user_id>
+        <hsterms:name>Clark, Marin</hsterms:name>
+        <hsterms:creatorOrder rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</hsterms:creatorOrder>
+        <hsterms:organization>University of Michigan - Ann Arbor</hsterms:organization>
+        <hsterms:email>marinkc@umich.edu</hsterms:email>
+        <hsterms:phone></hsterms:phone>
+        <hsterms:description rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">26827</hsterms:description>
+        <hsterms:address>MI, US</hsterms:address>
+        <hsterms:homepage></hsterms:homepage>
+      </rdf:Description>
+    </dc:creator>
+    <dc:date>
+      <dcterms:modified>
+        <rdf:value>2026-07-07T20:40:43.358348+00:00</rdf:value>
+      </dcterms:modified>
+    </dc:date>
+    <dc:language>eng</dc:language>
+    <dc:publisher>
+      <rdf:Description>
+        <hsterms:publisherURL rdf:resource="https://www.cuahsi.org"/>
+        <hsterms:publisherName>Consortium of Universities for the Advancement of Hydrologic Science, Inc. (CUAHSI)</hsterms:publisherName>
+      </rdf:Description>
+    </dc:publisher>
+    <dc:creator>
+      <rdf:Description>
+        <hsterms:creatorOrder rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</hsterms:creatorOrder>
+        <hsterms:phone></hsterms:phone>
+        <hsterms:address></hsterms:address>
+        <hsterms:email>james.hollingsworth@univ-grenoble-alpes.fr</hsterms:email>
+        <hsterms:homepage></hsterms:homepage>
+        <hsterms:organization>Université Grenoble Alpes</hsterms:organization>
+        <hsterms:name>James Hollingsworth</hsterms:name>
+      </rdf:Description>
+    </dc:creator>
+    <dc:date>
+      <dcterms:created>
+        <rdf:value>2024-10-05T15:29:40.934620+00:00</rdf:value>
+      </dcterms:created>
+    </dc:date>
+    <dc:subject>landslide</dc:subject>
+    <hsterms:awardInfo>
+      <rdf:Description>
+        <hsterms:awardTitle>NSFGEO-NERC Collaborative Research: Coupling Erosion, Weathering, and Hydrologic Function in an Active Orogenic System</hsterms:awardTitle>
+        <hsterms:fundingAgencyURL rdf:resource="https://ror.org/021nxhr62"/>
+        <hsterms:awardNumber>2021619</hsterms:awardNumber>
+        <hsterms:fundingAgencyName>U.S. National Science Foundation</hsterms:fundingAgencyName>
+      </rdf:Description>
+    </hsterms:awardInfo>
+    <dc:identifier>
+      <rdf:Description>
+        <hsterms:doi rdf:resource="https://doi.org/10.4211/hs.b6da096000284d5882d13b085b7669ac"/>
+      </rdf:Description>
+    </dc:identifier>
+    <dc:date>
+      <hsterms:published>
+        <rdf:value>2024-10-07T12:34:54.191532+00:00</rdf:value>
+      </hsterms:published>
+    </dc:date>
+    <dc:subject>FRES</dc:subject>
+    <dc:title>Nepal-FRES: 2021 Melamchi Flood Data</dc:title>
+    <dc:subject>monsoon</dc:subject>
+    <dc:subject>mountain</dc:subject>
+    <dc:relation>
+      <rdf:Description>
+        <dcterms:isPartOf>West, A. J., Atwood, A., Bhattarai, A., Bickle, M., Bista, S., Blunts, P., Chamlagain, D., Chen, C., Clark, M., Desormeaux, C., Dhakal, I., Hille, M., Keating, S., Okaya, D., Plescher, R., Ramesh, S., Sigdel, N., Sitaula, B., Siwakoti, A., Tarique, M., Tipper, E., Zekkos, D., Crapper, Z. (2026). Nepal-FRES: Helambu Hydrological Observatory (H2O) Data, HydroShare, http://www.hydroshare.org/resource/69f9da02e468489b8296600b6dfac079</dcterms:isPartOf>
+      </rdf:Description>
+    </dc:relation>
+    <hsterms:extendedMetadata>
+      <rdf:Description>
+        <hsterms:value>https://sites.google.com/usc.edu/nepal-fres/</hsterms:value>
+        <hsterms:key>Nepal-FRES Project Website</hsterms:key>
+      </rdf:Description>
+    </hsterms:extendedMetadata>
+  </hsterms:CompositeResource>
+</rdf:RDF>

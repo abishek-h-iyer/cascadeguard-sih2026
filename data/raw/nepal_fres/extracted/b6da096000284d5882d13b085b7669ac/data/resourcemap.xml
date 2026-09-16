@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+   xmlns:citoterms="http://purl.org/spar/cito/"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:dcterms="http://purl.org/dc/terms/"
+   xmlns:foaf="http://xmlns.com/foaf/0.1/"
+   xmlns:ore="http://www.openarchives.org/ore/terms/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:rdfs1="http://www.w3.org/2001/01/rdf-schema#"
+>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/resourcemap.xml">
+    <rdf:type rdf:resource="http://www.openarchives.org/ore/terms/ResourceMap"/>
+    <dc:identifier>b6da096000284d5882d13b085b7669ac</dc:identifier>
+    <dc:format>application/rdf+xml</dc:format>
+    <dcterms:modified>2026-07-09T11:29:39Z</dcterms:modified>
+    <dc:creator rdf:resource="http://foresite-toolkit.googlecode.com/#pythonAgent"/>
+    <dcterms:created>2026-07-09T11:29:39Z</dcterms:created>
+    <ore:describes rdf:resource="http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/resourcemap.xml#aggregation"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/contents/Landslide_and_Fluvial_Erosion_Nov2020-Oct2021.kml">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/vnd.google-earth.kml+xml</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/contents/Obscured_Areas_Shadow_Oct2021.kml">
+    <dc:format>application/vnd.google-earth.kml+xml</dc:format>
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/contents/Obscured_Areas_Shadow_Nov2020.kml">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/vnd.google-earth.kml+xml</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/contents/River_Terrace_Oct2021.kml">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/vnd.google-earth.kml+xml</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://foresite-toolkit.googlecode.com/#pythonAgent">
+    <foaf:name>Foresite Toolkit (Python)</foaf:name>
+    <foaf:mbox>foresite@googlegroups.com</foaf:mbox>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/resourcemap.xml#aggregation">
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/contents/Landslide_and_Fluvial_Erosion_Nov2014-Nov2020.kml"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/contents/Obscured_Areas_Cloud_Nov2014.kml"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/contents/Melamchi_Khola_River_Thalweg_Oct2021.kml"/>
+    <dcterms:type rdf:resource="http://www.hydroshare.org/terms/CompositeResource"/>
+    <ore:isDescribedBy>http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/resourcemap.xml</ore:isDescribedBy>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/contents/Obscured_Areas_Shadow_Oct2021.kml"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/contents/Obscured_Areas_Cloud_Oct2021.kml"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/contents/River_Terrace_Oct2021.kml"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/resourcemetadata.xml"/>
+    <citoterms:isDocumentedBy>http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/resourcemetadata.xml</citoterms:isDocumentedBy>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/contents/Forest_Dec2023.kml"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/contents/Melamchi_Khola_Catchment.kml"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/contents/Forest_Nov2020.kml"/>
+    <rdf:type rdf:resource="http://www.openarchives.org/ore/terms/Aggregation"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/contents/Melamchi_Khola_River_Channel_Oct2021.kml"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/contents/Obscured_Areas_Cloud_Nov2020.kml"/>
+    <dc:title>Nepal-FRES: 2021 Melamchi Flood Data</dc:title>
+        <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/contents/Landslide_and_Fluvial_Erosion_Nov2020-Oct2021.kml"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/contents/Landslide_and_Fluvial_Erosion_Oct2021-Dec2023.kml"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/contents/Landslide_before_Nov2014.kml"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/contents/Obscured_Areas_Shadow_Nov2020.kml"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/contents/Melamchi_Khola_River_Channel_Nov2020.kml"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/resourcemetadata.xml">
+    <dc:format>application/rdf+xml</dc:format>
+    <dc:title>Dublin Core science metadata document describing the HydroShare resource</dc:title>
+    <citoterms:documents>http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/resourcemap.xml#aggregation</citoterms:documents>
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/contents/Obscured_Areas_Cloud_Nov2014.kml">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/vnd.google-earth.kml+xml</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/contents/Forest_Nov2020.kml">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/vnd.google-earth.kml+xml</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/contents/Melamchi_Khola_River_Channel_Nov2020.kml">
+    <dc:format>application/vnd.google-earth.kml+xml</dc:format>
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/contents/Obscured_Areas_Cloud_Oct2021.kml">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/vnd.google-earth.kml+xml</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/terms/CompositeResource">
+    <rdfs1:label>Composite Resource</rdfs1:label>
+    <rdfs1:isDefinedBy>http://www.hydroshare.org/terms</rdfs1:isDefinedBy>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/contents/Obscured_Areas_Cloud_Nov2020.kml">
+    <dc:format>application/vnd.google-earth.kml+xml</dc:format>
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/contents/Forest_Dec2023.kml">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/vnd.google-earth.kml+xml</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.openarchives.org/ore/terms/ResourceMap">
+    <rdfs1:isDefinedBy>http://www.openarchives.org/ore/terms/</rdfs1:isDefinedBy>
+    <rdfs1:label>ResourceMap</rdfs1:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/contents/Landslide_before_Nov2014.kml">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/vnd.google-earth.kml+xml</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/contents/Melamchi_Khola_Catchment.kml">
+    <dc:format>application/vnd.google-earth.kml+xml</dc:format>
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.openarchives.org/ore/terms/Aggregation">
+    <rdfs1:isDefinedBy>http://www.openarchives.org/ore/terms/</rdfs1:isDefinedBy>
+    <rdfs1:label>Aggregation</rdfs1:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/contents/Landslide_and_Fluvial_Erosion_Oct2021-Dec2023.kml">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/vnd.google-earth.kml+xml</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/contents/Landslide_and_Fluvial_Erosion_Nov2014-Nov2020.kml">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/vnd.google-earth.kml+xml</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/contents/Melamchi_Khola_River_Thalweg_Oct2021.kml">
+    <dc:format>application/vnd.google-earth.kml+xml</dc:format>
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/contents/Melamchi_Khola_River_Channel_Oct2021.kml">
+    <dc:format>application/vnd.google-earth.kml+xml</dc:format>
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/b6da096000284d5882d13b085b7669ac/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+  </rdf:Description>
+</rdf:RDF>
