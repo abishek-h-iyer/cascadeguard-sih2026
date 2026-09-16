@@ -1,0 +1,32 @@
+.sensor-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.sensor-card {
+  background: var(--color-panel-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.sensor-card-label {
+  font-size: 11px;
+  color: var(--color-text-faint);
+}
+
+.sensor-card-value {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.sensor-card-unit {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+}

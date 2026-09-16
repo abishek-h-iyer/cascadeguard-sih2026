@@ -1,0 +1,30 @@
+.dashboard {
+  height: 100vh;
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  gap: 10px;
+  padding: 10px;
+}
+
+.dashboard-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 10px;
+  min-height: 0;
+}
+
+.dashboard-main-left {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 10px;
+  min-height: 0;
+}
+
+@media (max-width: 960px) {
+  .dashboard-main {
+    grid-template-columns: 1fr;
+  }
+  .dashboard-main-left {
+    grid-template-rows: 360px auto;
+  }
+}

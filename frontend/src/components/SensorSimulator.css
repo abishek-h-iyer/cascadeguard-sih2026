@@ -1,0 +1,122 @@
+.simulator-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 26, 34, 0.35);
+  z-index: 1000;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.simulator-panel {
+  width: 340px;
+  max-width: 92vw;
+  height: 100%;
+  border-radius: 0;
+  padding: 18px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.simulator-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.simulator-zone {
+  font-size: 18px;
+  font-weight: 800;
+  margin-top: 2px;
+}
+
+.simulator-close {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: var(--color-text-faint);
+}
+
+.simulator-hint {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.simulator-result {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--color-panel-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 10px;
+}
+
+.simulator-result-level {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+.simulator-presets {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.simulator-preset-btn {
+  border: 1px solid var(--color-border);
+  background: var(--color-panel-alt);
+  border-radius: var(--radius-sm);
+  padding: 7px 4px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.simulator-preset-btn:hover {
+  border-color: var(--color-brand);
+}
+
+.simulator-sliders {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.simulator-slider {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.simulator-slider-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.simulator-slider input[type='range'] {
+  width: 100%;
+}
+
+.simulator-reset-btn {
+  margin-top: auto;
+  border: 1px solid var(--color-border);
+  background: #fff;
+  border-radius: var(--radius-sm);
+  padding: 9px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.simulator-reset-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

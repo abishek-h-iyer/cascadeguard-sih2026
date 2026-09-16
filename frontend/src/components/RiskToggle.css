@@ -1,0 +1,25 @@
+.risk-toggle {
+  display: flex;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 3px;
+  box-shadow: var(--shadow-panel);
+}
+
+.risk-toggle-btn {
+  border: none;
+  background: transparent;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.risk-toggle-btn.active {
+  background: var(--color-brand);
+  color: #fff;
+}

@@ -1,0 +1,40 @@
+.cascade-list {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+}
+
+.cascade-item {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 3px 0 3px 2px;
+  font-size: 13px;
+  color: var(--color-text-faint);
+}
+
+.cascade-item.detected {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.cascade-marker {
+  width: 18px;
+  flex-shrink: 0;
+  text-align: center;
+  font-weight: 800;
+}
+
+.cascade-item.detected .cascade-marker {
+  color: var(--color-critical);
+}
+
+.cascade-connector {
+  position: absolute;
+  left: 10px;
+  top: 22px;
+  bottom: -3px;
+  width: 1px;
+  background: var(--color-border);
+}

@@ -1,0 +1,93 @@
+:root {
+  --color-bg: #eef1f5;
+  --color-panel: #ffffff;
+  --color-panel-alt: #f7f9fb;
+  --color-border: #dbe1e8;
+  --color-text: #1b2430;
+  --color-text-muted: #626d7a;
+  --color-text-faint: #8993a1;
+
+  --color-brand: #0f4c75;
+  --color-brand-dark: #0a3654;
+
+  --color-safe: #1a8a4a;
+  --color-safe-bg: #e5f5eb;
+  --color-watch: #b9770e;
+  --color-watch-bg: #fbf0dd;
+  --color-critical: #c62828;
+  --color-critical-bg: #fbe6e6;
+  --color-offline: #8a8f98;
+  --color-offline-bg: #eceef0;
+
+  --susceptibility-low: #9fc3e0;
+  --susceptibility-moderate: #4f8fc0;
+  --susceptibility-high: #1c4f7c;
+
+  --font-ui: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  --shadow-panel: 0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 3px rgba(16, 24, 40, 0.08);
+}
+
+* { box-sizing: border-box; }
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+}
+
+.mono { font-family: var(--font-mono); }
+
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.status-chip.safe { color: var(--color-safe); background: var(--color-safe-bg); }
+.status-chip.watch { color: var(--color-watch); background: var(--color-watch-bg); }
+.status-chip.critical { color: var(--color-critical); background: var(--color-critical-bg); }
+.status-chip.offline { color: var(--color-offline); background: var(--color-offline-bg); }
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.status-dot.safe { background: var(--color-safe); }
+.status-dot.watch { background: var(--color-watch); }
+.status-dot.critical { background: var(--color-critical); box-shadow: 0 0 0 3px var(--color-critical-bg); }
+.status-dot.offline { background: var(--color-offline); }
+
+.panel {
+  background: var(--color-panel);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-panel);
+}
+
+.panel-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+}
