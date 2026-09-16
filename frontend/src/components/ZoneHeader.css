@@ -1,0 +1,45 @@
+.zone-header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.zone-header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.zone-header-id {
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.zone-header-grid {
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: 12px;
+  row-gap: 4px;
+  margin: 0;
+  font-size: 13px;
+}
+
+.zone-header-grid dt {
+  color: var(--color-text-faint);
+}
+
+.zone-header-grid dd {
+  margin: 0;
+  text-align: right;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.zone-header-override {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-brand);
+  background: #e8f1f8;
+  border-radius: var(--radius-sm);
+  padding: 6px 8px;
+}

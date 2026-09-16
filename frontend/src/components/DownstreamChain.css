@@ -1,0 +1,48 @@
+.downstream-chain {
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.downstream-chain-track {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.downstream-chain-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.downstream-chain-node {
+  border: 2px solid var(--node-color);
+  background: color-mix(in srgb, var(--node-color) 12%, white);
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 9px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.downstream-chain-node.selected {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+.downstream-chain-warn {
+  font-size: 11px;
+}
+
+.downstream-chain-arrow {
+  color: var(--color-text-faint);
+  font-size: 13px;
+}

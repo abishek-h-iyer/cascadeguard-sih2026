@@ -1,0 +1,48 @@
+.map-panel {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+  padding: 0;
+}
+
+.map-panel-map {
+  height: 100%;
+  width: 100%;
+  border-radius: var(--radius-lg);
+}
+
+.map-panel-toggle {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 500;
+}
+
+.map-panel-legend {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  z-index: 500;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 8px 12px;
+  display: flex;
+  gap: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: var(--shadow-panel);
+}
+
+.map-panel-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.map-panel-legend-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}

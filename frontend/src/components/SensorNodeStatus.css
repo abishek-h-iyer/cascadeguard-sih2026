@@ -1,0 +1,38 @@
+.node-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.node-card {
+  background: var(--color-panel-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.node-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.node-card-id {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--color-text-muted);
+}
+
+.node-card-value {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.node-card-meta {
+  font-size: 10px;
+  color: var(--color-text-faint);
+}
