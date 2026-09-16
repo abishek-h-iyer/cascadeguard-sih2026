@@ -1,11 +1,11 @@
 import { useSyncExternalStore, useEffect } from 'react'
-import { mockStore } from '../services/mockStore'
+import { dashboardStore } from '../services/dashboardStore'
 
 export function useDashboardStore() {
-  const state = useSyncExternalStore(mockStore.subscribe, mockStore.getSnapshot)
+  const state = useSyncExternalStore(dashboardStore.subscribe, dashboardStore.getSnapshot)
 
   useEffect(() => {
-    return mockStore.startTicking()
+    return dashboardStore.startTicking()
   }, [])
 
   return state

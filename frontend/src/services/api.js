@@ -1,17 +1,15 @@
-// Thin service layer. Every function returns the same shape the rest of the
-// app expects (see mockStore.js's `nextZones[zoneId]` shape). To go live:
-//   1. Set USE_MOCK = false
-//   2. Set BASE_URL to the running FastAPI server
-//   3. If the real /zones response doesn't already match the mock shape,
-//      adjust adaptBackendZone() below — nothing else in the app needs to change.
-import { mockStore } from './mockStore'
-
-const USE_MOCK = true
-const BASE_URL = 'http://localhost:8000'
+// Thin fetch wrapper around the FastAPI backend (backend/main.py). Every
+// function returns the shape the rest of the app expects; adaptBackendZone()
+// is the one seam where the wire format (snake_case, except sensor node
+// crc_valid) gets translated to what the components read.
+// Pinned to the IPv4 loopback address rather than 'localhost': uvicorn
+// binds IPv4-only by default, but on Windows 'localhost' often resolves to
+// the IPv6 loopback (::1) first, which silently fails to connect.
+const BASE_URL = 'http://127.0.0.1:8000'
 
 async function getJSON(path) {
   const res = await fetch(`${BASE_URL}${path}`)
-  if (!res.ok) throw new Error(`${path} failed: ${res.status}`)
+  if (!res.ok) throw await toApiError(res)
   return res.json()
 }
 
@@ -19,62 +17,85 @@ async function postJSON(path, body) {
   const res = await fetch(`${BASE_URL}${path}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: body ? JSON.stringify(body) : undefined,
+    body: body !== undefined ? JSON.stringify(body) : undefined,
   })
-  if (!res.ok) throw new Error(`${path} failed: ${res.status}`)
+  if (!res.ok) throw await toApiError(res)
   return res.json().catch(() => null)
 }
 
-// Adjust this once the real backend's zone JSON shape is known. It should
-// return the same fields components read: zone_id, terrain, sensors,
-// sensor_states, cascade, alert_level, operational_status, reasons,
-// downstream_warnings, incoming_warning, sensor_nodes, last_updated, overridden.
+async function deleteJSON(path) {
+  const res = await fetch(`${BASE_URL}${path}`, { method: 'DELETE' })
+  if (!res.ok) throw await toApiError(res)
+  return res.json().catch(() => null)
+}
+
+async function toApiError(res) {
+  const body = await res.json().catch(() => null)
+  const detail = body?.detail
+  const message = typeof detail === 'string'
+    ? detail
+    : Array.isArray(detail)
+      ? detail.map((d) => d.msg).join('; ')
+      : `Request failed with status ${res.status}`
+  const error = new Error(message)
+  error.status = res.status
+  return error
+}
+
 function adaptBackendZone(raw) {
-  return raw
+  return {
+    ...raw,
+    sensor_nodes: raw.sensor_nodes.map((node) => ({
+      ...node,
+      crcValid: node.crc_valid,
+    })),
+  }
+}
+
+function adaptHealth(raw) {
+  return {
+    systemOnline: raw.status === 'ONLINE',
+    gatewayConnected: raw.gateway === 'CONNECTED',
+    lastSensorUpdate: raw.last_sensor_update,
+  }
 }
 
 export async function getHealth() {
-  if (USE_MOCK) {
-    const { connection } = mockStore.getSnapshot()
-    return { status: connection.systemOnline ? 'ONLINE' : 'OFFLINE', gateway: connection.gatewayConnected ? 'CONNECTED' : 'DISCONNECTED' }
-  }
-  return getJSON('/health')
+  return adaptHealth(await getJSON('/health'))
 }
 
 export async function getZones() {
-  if (USE_MOCK) {
-    const { zones } = mockStore.getSnapshot()
-    return Object.values(zones)
-  }
   const zones = await getJSON('/zones')
   return zones.map(adaptBackendZone)
 }
 
 export async function getZone(zoneId) {
-  if (USE_MOCK) {
-    const { zones } = mockStore.getSnapshot()
-    return zones[zoneId] || null
-  }
   return adaptBackendZone(await getJSON(`/zones/${zoneId}`))
 }
 
 export async function getLatestRisk() {
-  if (USE_MOCK) return getZones()
   const zones = await getJSON('/latest-risk')
   return zones.map(adaptBackendZone)
 }
 
 export async function getEvents() {
-  if (USE_MOCK) {
-    return mockStore.getSnapshot().events
-  }
   return getJSON('/events')
 }
 
 export async function resetDemo() {
-  if (USE_MOCK) {
-    mockStore.reset()
-    return
-  }
   return postJSON('/reset')
+}
+
+export async function setZoneOverride(zoneId, partialSensors) {
+  const result = await postJSON(`/zones/${zoneId}/override`, partialSensors)
+  return { ...result, zone: adaptBackendZone(result.zone) }
+}
+
+export async function clearZoneOverride(zoneId) {
+  const result = await deleteJSON(`/zones/${zoneId}/override`)
+  return { ...result, zone: adaptBackendZone(result.zone) }
+}
+
+export async function ingestPacket(packet) {
+  return postJSON('/ingest', { packet })
 }
