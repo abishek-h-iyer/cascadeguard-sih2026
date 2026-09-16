@@ -1,0 +1,141 @@
+.eta-forecast-source {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px;
+  background: var(--color-critical-bg);
+  border: 1px solid var(--color-critical);
+  border-radius: var(--radius-md);
+}
+
+.eta-forecast-source-label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--color-critical);
+}
+
+.eta-forecast-source-time {
+  font-size: 12px;
+  color: var(--color-text);
+}
+
+.eta-forecast-hint {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+}
+
+.eta-forecast-arrived {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.eta-forecast-card {
+  margin-top: 8px;
+  padding: 10px;
+  background: var(--color-panel-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.eta-forecast-card.calibrated {
+  border-color: var(--color-brand);
+  background: color-mix(in srgb, var(--color-brand) 6%, var(--color-panel-alt));
+}
+
+.eta-forecast-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.eta-forecast-badge {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  border-radius: 999px;
+  color: var(--color-watch);
+  background: var(--color-watch-bg);
+}
+
+.eta-forecast-badge.calibrated {
+  color: var(--color-brand);
+  background: color-mix(in srgb, var(--color-brand) 14%, white);
+}
+
+.eta-forecast-badge-sub {
+  font-size: 11px;
+  color: var(--color-text-faint);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.eta-forecast-main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.eta-forecast-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.eta-forecast-stat-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+}
+
+.eta-forecast-stat-value {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--color-text);
+}
+
+.eta-forecast-source-line {
+  margin: 0;
+  font-size: 11px;
+  color: var(--color-text-faint);
+}
+
+.eta-forecast-details {
+  font-size: 12px;
+}
+
+.eta-forecast-details summary {
+  cursor: pointer;
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+.eta-forecast-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 10px;
+  margin: 8px 0 0;
+  font-size: 12px;
+}
+
+.eta-forecast-grid dt {
+  color: var(--color-text-muted);
+}
+
+.eta-forecast-grid dd {
+  margin: 0;
+  color: var(--color-text);
+  font-weight: 600;
+}

@@ -1,8 +1,17 @@
 import { ZONE_IDS } from '../data/zoneStaticData'
 import { statusColor } from '../utils/riskMapping'
+import { getZoneEtaInfo, countdownMinutes } from '../utils/eta'
 import './DownstreamChain.css'
 
-export default function DownstreamChain({ zones, selectedZoneId, onSelectZone }) {
+function etaTooltip(zone, etaInfo) {
+  if (!etaInfo) return `${zone.zone_id} — ${zone.operational_status}`
+  if (etaInfo.type === 'SOURCE') return `${zone.zone_id} — Surge source`
+  if (etaInfo.type === 'ARRIVED') return `${zone.zone_id} — Arrived, wave observed`
+  const { minLeft, maxLeft, arrivingNow } = countdownMinutes(etaInfo.prediction.eta_min_ms, etaInfo.prediction.eta_max_ms, Date.now())
+  return arrivingNow ? `${zone.zone_id} — Arriving now` : `${zone.zone_id} — Impact in ${minLeft}-${maxLeft} min`
+}
+
+export default function DownstreamChain({ zones, etaEvents = {}, selectedZoneId, onSelectZone }) {
   return (
     <div className="downstream-chain panel">
       <span className="panel-title">Downstream Flow — MEL_Z01 to MEL_Z12</span>
@@ -12,16 +21,18 @@ export default function DownstreamChain({ zones, selectedZoneId, onSelectZone })
           const isLast = i === ZONE_IDS.length - 1
           const isCritical = zone.operational_status === 'CRITICAL'
           const shortId = zoneId.slice(-2)
+          const etaInfo = getZoneEtaInfo(etaEvents, zoneId)
 
           return (
             <div className="downstream-chain-item" key={zoneId}>
               <button
-                className={`downstream-chain-node${zoneId === selectedZoneId ? ' selected' : ''}`}
+                className={`downstream-chain-node${zoneId === selectedZoneId ? ' selected' : ''}${etaInfo?.type === 'FORECAST' ? ' eta-pending' : ''}`}
                 style={{ '--node-color': statusColor(zone.operational_status) }}
                 onClick={() => onSelectZone(zoneId)}
-                title={`${zoneId} — ${zone.operational_status}`}
+                title={etaTooltip(zone, etaInfo)}
               >
                 {isCritical && <span className="downstream-chain-warn">⚠</span>}
+                {etaInfo?.type === 'ARRIVED' && <span className="downstream-chain-arrived">✓</span>}
                 Z{shortId}
               </button>
               {!isLast && <span className="downstream-chain-arrow">→</span>}

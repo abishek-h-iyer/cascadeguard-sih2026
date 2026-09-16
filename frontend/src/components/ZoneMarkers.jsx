@@ -1,15 +1,24 @@
 import { CircleMarker, Tooltip } from 'react-leaflet'
 import { ZONE_STATIC } from '../data/zoneStaticData'
 import { statusColor, susceptibilityColor, STATUS_LABEL } from '../utils/riskMapping'
+import { getZoneEtaInfo, countdownMinutes } from '../utils/eta'
 
 const STATUS_RANK = { SAFE: 0, WATCH: 1, CRITICAL: 2 }
 const SUSCEPTIBILITY_RANK = { LOW: 0, MODERATE: 1, HIGH: 2 }
+
+function etaTooltipLine(etaInfo) {
+  if (!etaInfo) return null
+  if (etaInfo.type === 'SOURCE') return 'Surge source'
+  if (etaInfo.type === 'ARRIVED') return 'Arrived — wave observed'
+  const { minLeft, maxLeft, arrivingNow } = countdownMinutes(etaInfo.prediction.eta_min_ms, etaInfo.prediction.eta_max_ms, Date.now())
+  return arrivingNow ? 'Arriving now' : `Impact in ${minLeft}-${maxLeft} min`
+}
 
 // Rendered as CircleMarkers at real surveyed centroids until the backend
 // team supplies zone polygon GeoJSON. Swapping to real polygons later means
 // replacing this loop with a single <GeoJSON data={...} style={styleFor}>
 // layer — styleFor() below is written so it can be reused as-is.
-export default function ZoneMarkers({ zones, riskViewMode, selectedZoneId, onSelectZone }) {
+export default function ZoneMarkers({ zones, riskViewMode, selectedZoneId, onSelectZone, etaEvents = {} }) {
   const isLiveMode = riskViewMode === 'LIVE'
 
   // Zones can sit close enough together to visually overlap at this scale.
@@ -51,6 +60,12 @@ export default function ZoneMarkers({ zones, riskViewMode, selectedZoneId, onSel
               {isLive
                 ? STATUS_LABEL[zone.operational_status]
                 : `${zone.terrain.susceptibility_class} susceptibility`}
+              {isLive && etaTooltipLine(getZoneEtaInfo(etaEvents, zone.zone_id)) && (
+                <>
+                  <br />
+                  {etaTooltipLine(getZoneEtaInfo(etaEvents, zone.zone_id))}
+                </>
+              )}
             </Tooltip>
           </CircleMarker>
         )

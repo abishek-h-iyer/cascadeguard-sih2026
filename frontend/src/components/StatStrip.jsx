@@ -1,9 +1,11 @@
 import { STATUS_LABEL } from '../utils/riskMapping'
+import { getNextArrival, countdownMinutes } from '../utils/eta'
 import './StatStrip.css'
 
-export default function StatStrip({ stats, connection, onSelectZone }) {
+export default function StatStrip({ stats, connection, etaEvents = {}, onSelectZone }) {
   const { highest, critical, watch } = stats
   const statusClass = highest.operational_status.toLowerCase()
+  const nextArrival = getNextArrival(etaEvents, Date.now())
 
   return (
     <section className="stat-strip">
@@ -31,6 +33,28 @@ export default function StatStrip({ stats, connection, onSelectZone }) {
           {connection.gatewayConnected ? 'Connected' : 'Disconnected'}
         </span>
       </div>
+
+      {nextArrival && (
+        <button
+          className="stat-tile panel stat-tile-clickable"
+          onClick={() => onSelectZone(nextArrival.prediction.zone_id)}
+        >
+          <span className="panel-title">Next Arrival</span>
+          {(() => {
+            const { minLeft, maxLeft, arrivingNow } = countdownMinutes(
+              nextArrival.prediction.eta_min_ms,
+              nextArrival.prediction.eta_max_ms,
+              Date.now(),
+            )
+            return (
+              <span className="stat-tile-value mono">
+                {nextArrival.prediction.zone_id} — {arrivingNow ? 'now' : `${minLeft}–${maxLeft}m`}
+              </span>
+            )
+          })()}
+          <span className="stat-tile-sub">from {nextArrival.sourceZone}</span>
+        </button>
+      )}
     </section>
   )
 }

@@ -1,7 +1,9 @@
+import { getZoneEtaInfo } from '../utils/eta'
 import './CascadePanel.css'
 
-function buildStages(zone) {
+function buildStages(zone, etaEvents) {
   const { sensor_states, cascade, downstream_warnings } = zone
+  const etaInfo = getZoneEtaInfo(etaEvents, zone.zone_id)
   return [
     { label: 'Heavy Rain', detected: sensor_states.rainfall === 'HIGH' || sensor_states.rainfall === 'SEVERE' },
     { label: 'Soil Saturation', detected: sensor_states.soil === 'HIGH' || sensor_states.soil === 'SATURATED' },
@@ -10,11 +12,16 @@ function buildStages(zone) {
     { label: 'Possible River Blockage', detected: cascade.possible_blockage },
     { label: 'Possible Surge', detected: cascade.possible_surge, inactiveLabel: 'Surge Not Yet Detected' },
     { label: 'Downstream Warning', detected: downstream_warnings.length > 0 },
+    {
+      label: etaInfo?.type === 'ARRIVED' ? 'Flood Arrival Observed' : 'Arrival Forecast (ETA)',
+      detected: etaInfo != null,
+      inactiveLabel: 'ETA Not Yet Activated',
+    },
   ]
 }
 
-export default function CascadePanel({ zone }) {
-  const stages = buildStages(zone)
+export default function CascadePanel({ zone, etaEvents = {} }) {
+  const stages = buildStages(zone, etaEvents)
 
   return (
     <div>

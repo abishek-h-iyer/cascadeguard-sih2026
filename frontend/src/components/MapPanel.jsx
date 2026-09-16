@@ -41,7 +41,7 @@ function riverSegments(zones) {
   return segments
 }
 
-export default function MapPanel({ zones, riskViewMode, onRiskViewModeChange, selectedZoneId, onSelectZone }) {
+export default function MapPanel({ zones, riskViewMode, onRiskViewModeChange, selectedZoneId, onSelectZone, etaEvents = {} }) {
   return (
     <div className="map-panel panel">
       <MapContainer center={CENTER} zoom={10} className="map-panel-map" scrollWheelZoom>
@@ -62,6 +62,7 @@ export default function MapPanel({ zones, riskViewMode, onRiskViewModeChange, se
           riskViewMode={riskViewMode}
           selectedZoneId={selectedZoneId}
           onSelectZone={onSelectZone}
+          etaEvents={etaEvents}
         />
       </MapContainer>
 

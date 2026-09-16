@@ -38,8 +38,23 @@
   outline-offset: 2px;
 }
 
+.downstream-chain-node.eta-pending {
+  animation: eta-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes eta-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--node-color) 45%, transparent); }
+  50% { box-shadow: 0 0 0 4px color-mix(in srgb, var(--node-color) 0%, transparent); }
+}
+
 .downstream-chain-warn {
   font-size: 11px;
+}
+
+.downstream-chain-arrived {
+  font-size: 11px;
+  color: var(--color-brand);
+  font-weight: 800;
 }
 
 .downstream-chain-arrow {
