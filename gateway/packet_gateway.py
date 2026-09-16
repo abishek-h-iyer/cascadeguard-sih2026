@@ -1,4 +1,5 @@
 from pathlib import Path
+from datetime import datetime
 import sys
 
 
@@ -10,6 +11,7 @@ sys.path.insert(
 )
 
 from risk_engine import RiskEngine
+from eta_engine import ETAEngine
 
 
 def crc8(data):
@@ -85,9 +87,13 @@ class PacketGateway:
 
         self.engine = RiskEngine()
 
+        self.eta_engine = ETAEngine()
+
         self.zone_state = {}
 
         self.last_sequence = {}
+
+        self.active_surge_events = {}
 
 
     def parse_packet(self, packet):
@@ -200,7 +206,184 @@ class PacketGateway:
         }
 
 
-    def process_packet(self, packet):
+    def start_eta_forecast(
+        self,
+        zone_id,
+        event_time
+    ):
+
+        if zone_id in self.active_surge_events:
+
+            event = self.active_surge_events[
+                zone_id
+            ]
+
+            return {
+                "status": "ACTIVE",
+                "source_zone": zone_id,
+                "source_time": event[
+                    "source_time"
+                ].strftime(
+                    "%H:%M:%S"
+                ),
+                "predictions": event[
+                    "predictions"
+                ]
+            }
+
+
+        predictions = self.eta_engine.predict(
+            source_zone=zone_id,
+            event_time=event_time,
+            zone_count=4
+        )
+
+        self.active_surge_events[
+            zone_id
+        ] = {
+            "source_time": event_time,
+            "predictions": predictions,
+            "observed_zones": set()
+        }
+
+        return {
+            "status": "INITIAL_FORECAST",
+            "source_zone": zone_id,
+            "source_time": event_time.strftime(
+                "%H:%M:%S"
+            ),
+            "predictions": predictions
+        }
+
+
+    def find_active_source(
+        self,
+        observed_zone
+    ):
+
+        observed_number = (
+            self.eta_engine.zone_number(
+                observed_zone
+            )
+        )
+
+        candidates = []
+
+        for source_zone, event in (
+            self.active_surge_events.items()
+        ):
+
+            source_number = (
+                self.eta_engine.zone_number(
+                    source_zone
+                )
+            )
+
+            if (
+                source_number
+                < observed_number
+                and observed_zone
+                not in event["observed_zones"]
+            ):
+
+                candidates.append(
+                    (
+                        source_number,
+                        source_zone
+                    )
+                )
+
+
+        if not candidates:
+
+            return None
+
+
+        candidates.sort(
+            reverse=True
+        )
+
+        return candidates[0][1]
+
+
+    def process_eta_observation(
+        self,
+        observed_zone,
+        observed_time
+    ):
+
+        source_zone = (
+            self.find_active_source(
+                observed_zone
+            )
+        )
+
+
+        if source_zone is None:
+
+            return None
+
+
+        event = self.active_surge_events[
+            source_zone
+        ]
+
+        updated = (
+            self.eta_engine.update_from_observation(
+                source_zone=source_zone,
+                observed_zone=observed_zone,
+                source_time=event[
+                    "source_time"
+                ],
+                observed_time=observed_time,
+                zone_count=4
+            )
+        )
+
+
+        event["observed_zones"].add(
+            observed_zone
+        )
+
+        event["predictions"] = (
+            updated["predictions"]
+        )
+
+
+        return {
+            "status": "SENSOR_CALIBRATED",
+            "source_zone": source_zone,
+            "observed_zone": observed_zone,
+            "source_time": event[
+                "source_time"
+            ].strftime(
+                "%H:%M:%S"
+            ),
+            "observed_time": (
+                observed_time.strftime(
+                    "%H:%M:%S"
+                )
+            ),
+            "observation": updated[
+                "observation"
+            ],
+            "predictions": updated[
+                "predictions"
+            ]
+        }
+
+
+    def process_packet(
+        self,
+        packet,
+        received_time=None
+    ):
+
+        packet_time = (
+            received_time
+            if received_time is not None
+            else datetime.now()
+        )
 
         try:
 
@@ -227,7 +410,8 @@ class PacketGateway:
 
         if (
             node_id in self.last_sequence
-            and self.last_sequence[node_id] == sequence
+            and self.last_sequence[node_id]
+            == sequence
         ):
 
             return {
@@ -281,6 +465,23 @@ class PacketGateway:
         ][field] = parsed["value"]
 
 
+        eta_observation = None
+
+
+        if (
+            parsed["sensor_type"]
+            == "DOWN_RISE"
+            and parsed["value"] >= 0.60
+        ):
+
+            eta_observation = (
+                self.process_eta_observation(
+                    observed_zone=zone_id,
+                    observed_time=packet_time
+                )
+            )
+
+
         state = self.zone_state[
             zone_id
         ]
@@ -298,13 +499,20 @@ class PacketGateway:
                 "status": "WAITING",
                 "node_id": node_id,
                 "zone_id": zone_id,
-                "sensor_type": parsed["sensor_type"],
+                "sensor_type": (
+                    parsed["sensor_type"]
+                ),
                 "value": parsed["value"],
                 "sequence": sequence,
                 "crc": parsed["crc"],
-                "sequence_warning": sequence_warning,
+                "sequence_warning": (
+                    sequence_warning
+                ),
                 "missing": sorted(
                     missing
+                ),
+                "eta_observation": (
+                    eta_observation
                 )
             }
 
@@ -320,12 +528,35 @@ class PacketGateway:
         )
 
 
+        eta = None
+
+
+        if result[
+            "cascade"
+        ][
+            "possible_surge"
+        ]:
+
+            eta = self.start_eta_forecast(
+                zone_id=zone_id,
+                event_time=packet_time
+            )
+
+
         return {
             "status": "EVALUATED",
             "source_node": node_id,
-            "updated_sensor": parsed["sensor_type"],
+            "updated_sensor": (
+                parsed["sensor_type"]
+            ),
             "sequence": sequence,
             "crc": parsed["crc"],
-            "sequence_warning": sequence_warning,
-            "result": result
+            "sequence_warning": (
+                sequence_warning
+            ),
+            "result": result,
+            "eta": eta,
+            "eta_observation": (
+                eta_observation
+            )
         }
