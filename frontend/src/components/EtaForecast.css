@@ -1,3 +1,14 @@
+.eta-forecast-pending {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px;
+  background: var(--color-panel-alt);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md);
+}
+
 .eta-forecast-source {
   margin-top: 8px;
   display: flex;
@@ -51,6 +62,11 @@
   background: color-mix(in srgb, var(--color-brand) 6%, var(--color-panel-alt));
 }
 
+.eta-forecast-card.preliminary {
+  border-style: dashed;
+  border-color: var(--color-text-faint);
+}
+
 .eta-forecast-badge-row {
   display: flex;
   align-items: center;
@@ -70,6 +86,12 @@
 .eta-forecast-badge.calibrated {
   color: var(--color-brand);
   background: color-mix(in srgb, var(--color-brand) 14%, white);
+}
+
+.eta-forecast-badge.preliminary {
+  color: var(--color-text-muted);
+  background: var(--color-panel-alt);
+  border: 1px dashed var(--color-text-faint);
 }
 
 .eta-forecast-badge-sub {

@@ -18,6 +18,7 @@ const OVERRIDE_DEBOUNCE_MS = 150
 const DOWNSTREAM_SURGE_THRESHOLD = 0.6
 const LOCAL_EVENTS_CAP = 60
 const MERGED_EVENTS_CAP = 100
+const EARLY_WARNING_REACH = 3
 
 // The backend gateway (packet_gateway.py) already produces `eta` /
 // `eta_observation` when hardware packets flow through /ingest, but the
@@ -44,11 +45,14 @@ function mergeEvents(backendEvents, localEvents) {
 }
 
 // Mirrors PacketGateway.find_active_source: the nearest active upstream
-// surge event that hasn't already observed this zone.
+// surge event that hasn't already observed this zone. Only real SURGE
+// events get recalibrated by a sensor observation — a WATCH-triggered
+// preliminary estimate has nothing confirmed to calibrate against.
 function findActiveSource(etaEvents, observedZoneId) {
   const observedNumber = zoneNumber(observedZoneId)
   let best = null
   for (const event of Object.values(etaEvents)) {
+    if (event.kind !== 'SURGE') continue
     const sourceNumber = zoneNumber(event.sourceZone)
     if (sourceNumber < observedNumber && !event.observations[observedZoneId]) {
       if (!best || sourceNumber > zoneNumber(best)) best = event.sourceZone
@@ -61,16 +65,20 @@ function findActiveSource(etaEvents, observedZoneId) {
 // (cascade.possible_surge turning true, and a downstream_rise reading
 // crossing the surge threshold) and advances the local ETA event state.
 function advanceEta(prevZonesById, nextZonesById, prevEtaEvents, nowMs) {
-  // On the very first snapshot there's nothing to diff against. Treating a
-  // missing previous reading as "was safe" would manufacture a fake
-  // transition for whatever state the backend already happened to be in
-  // (e.g. reloading mid-demo), and if a source zone AND an already-past-
-  // threshold downstream zone both "transition" on the same tick, the
-  // source/observed timestamps collide and updateFromObservation throws.
-  // Just adopt the current backend state as the quiet baseline instead.
-  if (Object.keys(prevZonesById).length === 0) {
-    return { etaEvents: prevEtaEvents, newLocalEvents: [] }
-  }
+  // On the very first snapshot there's nothing to diff against yet, so a
+  // missing previous reading reads as "was safe/not watch" and every zone
+  // already in a non-safe state (e.g. MEL_Z03's demo seed, which starts
+  // mid-blockage on purpose) looks like it "just transitioned" right now.
+  // That's fine, even desirable, for the SURGE and WATCH loops below — a
+  // freshly connected dashboard treating current conditions as its starting
+  // point is reasonable, and it's what makes a fresh reset immediately
+  // demoable instead of requiring a throwaway Normal->Blockage cycle first.
+  // It's only dangerous for the observation loop further down: if a source
+  // zone AND an already-past-threshold downstream zone both "transition" on
+  // this same first tick, their timestamps collide and
+  // updateFromObservation throws (observed time must be after source time).
+  // So only that loop gets skipped on the first snapshot.
+  const isFirstSnapshot = Object.keys(prevZonesById).length === 0
 
   let etaEvents = prevEtaEvents
   const newLocalEvents = []
@@ -89,7 +97,7 @@ function advanceEta(prevZonesById, nextZonesById, prevEtaEvents, nowMs) {
       const predictions = predict(zoneId, nowMs, 4)
       etaEvents = {
         ...etaEvents,
-        [zoneId]: { sourceZone: zoneId, sourceTimeMs: nowMs, predictions, observations: {} },
+        [zoneId]: { kind: 'SURGE', sourceZone: zoneId, sourceTimeMs: nowMs, predictions, observations: {} },
       }
       newLocalEvents.push(makeLocalEvent(`Surge detected at ${zoneId} — ETA engine activated`, nowMs))
       if (predictions.length) {
@@ -99,10 +107,50 @@ function advanceEta(prevZonesById, nextZonesById, prevEtaEvents, nowMs) {
           nowMs,
         ))
       }
+    } else if (!isSurging && wasSurging && etaEvents[zoneId]?.kind === 'SURGE') {
+      // The condition that started this event is no longer active (e.g. the
+      // zone was dialed back to Normal) — retract the in-flight forecast
+      // rather than leaving a stale arrival window on screen forever.
+      const { [zoneId]: _removed, ...rest } = etaEvents
+      etaEvents = rest
+      newLocalEvents.push(makeLocalEvent(`ETA forecast cleared for ${zoneId} — surge conditions resolved`, nowMs))
+    }
+  }
+
+  // Broader, earlier signal: ANY zone turning WATCH (yellow) — whatever the
+  // cause, not just a confirmed blockage/surge upstream — gives its own
+  // next few downstream zones a preliminary heads-up, using the exact same
+  // physics as a confirmed forecast, just triggered sooner and never
+  // sensor-calibrated. This never touches operational_status/color — it's
+  // a second, independent event kind so it can't collide with (or get
+  // overwritten by) a real SURGE event for the same zone.
+  for (const zoneId of Object.keys(nextZonesById)) {
+    const zone = nextZonesById[zoneId]
+    const wasWatch = prevZonesById[zoneId]?.operational_status === 'WATCH'
+    const isWatch = zone.operational_status === 'WATCH'
+
+    if (isWatch && !wasWatch) {
+      const predictions = predict(zoneId, nowMs, EARLY_WARNING_REACH).map((p) => ({ ...p, forecast_type: 'EARLY_WARNING' }))
+      etaEvents = {
+        ...etaEvents,
+        [zoneId]: { kind: 'WATCH', sourceZone: zoneId, sourceTimeMs: nowMs, predictions, observations: {} },
+      }
+      if (predictions.length) {
+        newLocalEvents.push(makeLocalEvent(
+          `${zoneId} on watch — preliminary arrival estimate issued for ${predictions.map((p) => p.zone_id).join(', ')}`,
+          nowMs,
+        ))
+      }
+    } else if (!isWatch && wasWatch && etaEvents[zoneId]?.kind === 'WATCH') {
+      const { [zoneId]: _removed, ...rest } = etaEvents
+      etaEvents = rest
+      newLocalEvents.push(makeLocalEvent(`Preliminary ETA cleared for ${zoneId} — no longer on watch`, nowMs))
     }
   }
 
   for (const zoneId of Object.keys(nextZonesById)) {
+    if (isFirstSnapshot) break
+
     const rise = nextZonesById[zoneId].sensors.downstream_rise_m_10m
     const prevRise = prevZonesById[zoneId]?.sensors?.downstream_rise_m_10m ?? 0
     const crossedThreshold = rise >= DOWNSTREAM_SURGE_THRESHOLD && prevRise < DOWNSTREAM_SURGE_THRESHOLD

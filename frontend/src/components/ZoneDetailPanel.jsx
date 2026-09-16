@@ -16,7 +16,7 @@ export default function ZoneDetailPanel({ zone, etaEvents = {} }) {
     )
   }
 
-  const hasEta = getZoneEtaInfo(etaEvents, zone.zone_id) != null
+  const hasEta = getZoneEtaInfo(etaEvents, zone.zone_id) != null || zone.incoming_warning != null
 
   return (
     <aside className="zone-detail panel">

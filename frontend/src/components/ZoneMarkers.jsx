@@ -9,9 +9,11 @@ const SUSCEPTIBILITY_RANK = { LOW: 0, MODERATE: 1, HIGH: 2 }
 function etaTooltipLine(etaInfo) {
   if (!etaInfo) return null
   if (etaInfo.type === 'SOURCE') return 'Surge source'
+  if (etaInfo.type === 'WATCH_SOURCE') return 'On watch — preliminary warning issued downstream'
   if (etaInfo.type === 'ARRIVED') return 'Arrived — wave observed'
   const { minLeft, maxLeft, arrivingNow } = countdownMinutes(etaInfo.prediction.eta_min_ms, etaInfo.prediction.eta_max_ms, Date.now())
-  return arrivingNow ? 'Arriving now' : `Impact in ${minLeft}-${maxLeft} min`
+  const verb = etaInfo.prediction.forecast_type === 'EARLY_WARNING' ? 'Possible impact' : 'Impact'
+  return arrivingNow ? 'Arriving now' : `${verb} in ${minLeft}-${maxLeft} min`
 }
 
 // Rendered as CircleMarkers at real surveyed centroids until the backend

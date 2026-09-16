@@ -14,7 +14,26 @@ export default function EtaForecast({ zone, etaEvents }) {
   }, [])
 
   const info = getZoneEtaInfo(etaEvents, zone.zone_id)
-  if (!info) return null
+
+  if (!info) {
+    if (!zone.incoming_warning) return null
+    // Downstream pre-warning (blockage detected upstream) but no confirmed
+    // release yet — the ETA engine only activates on an actual surge, so
+    // make it explicit this is pending rather than looking broken/missing.
+    return (
+      <div className="eta-forecast">
+        <span className="panel-title">Flood-Arrival ETA</span>
+        <div className="eta-forecast-pending">
+          <span className="status-chip watch">Pending</span>
+          <p className="eta-forecast-hint">
+            {zone.incoming_warning.from_zone} is on watch for a possible blockage release.
+            An arrival window will appear here once a real surge is detected —
+            not before, since there's no confirmed wave to estimate yet.
+          </p>
+        </div>
+      </div>
+    )
+  }
 
   if (info.type === 'SOURCE') {
     return (
@@ -28,6 +47,23 @@ export default function EtaForecast({ zone, etaEvents }) {
           <p className="eta-forecast-hint">
             Downstream arrival windows below are physics-informed from here, and will
             update as real sensors confirm the wave passing through each zone.
+          </p>
+        </div>
+      </div>
+    )
+  }
+
+  if (info.type === 'WATCH_SOURCE') {
+    return (
+      <div className="eta-forecast">
+        <span className="panel-title">Flood-Arrival ETA</span>
+        <div className="eta-forecast-pending">
+          <span className="status-chip watch">On Watch</span>
+          <p className="eta-forecast-hint">
+            {zone.zone_id} is on watch — {info.warnedZones.join(', ')} now have a preliminary
+            arrival estimate as a precaution. This is not a confirmed surge; it will clear if
+            {' '}{zone.zone_id} returns to normal, or be replaced by a confirmed forecast if a
+            real surge is detected.
           </p>
         </div>
       </div>
@@ -59,13 +95,16 @@ export default function EtaForecast({ zone, etaEvents }) {
   const { prediction } = info
   const basis = FORECAST_BASIS[prediction.forecast_type]
   const { minLeft, maxLeft, arrivingNow } = countdownMinutes(prediction.eta_min_ms, prediction.eta_max_ms, Date.now())
+  const variantClass = prediction.forecast_type === 'SENSOR_CALIBRATED' ? 'calibrated'
+    : prediction.forecast_type === 'EARLY_WARNING' ? 'preliminary'
+    : ''
 
   return (
     <div className="eta-forecast">
       <span className="panel-title">Flood-Arrival ETA</span>
-      <div className={`eta-forecast-card ${prediction.forecast_type === 'SENSOR_CALIBRATED' ? 'calibrated' : ''}`}>
+      <div className={`eta-forecast-card ${variantClass}`}>
         <div className="eta-forecast-badge-row">
-          <span className={`eta-forecast-badge ${prediction.forecast_type === 'SENSOR_CALIBRATED' ? 'calibrated' : ''}`}>
+          <span className={`eta-forecast-badge ${variantClass}`}>
             {basis.badge}
           </span>
           <span className="eta-forecast-badge-sub">{basis.sub}</span>

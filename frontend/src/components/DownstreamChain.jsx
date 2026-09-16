@@ -6,9 +6,11 @@ import './DownstreamChain.css'
 function etaTooltip(zone, etaInfo) {
   if (!etaInfo) return `${zone.zone_id} — ${zone.operational_status}`
   if (etaInfo.type === 'SOURCE') return `${zone.zone_id} — Surge source`
+  if (etaInfo.type === 'WATCH_SOURCE') return `${zone.zone_id} — On watch, preliminary warning issued downstream`
   if (etaInfo.type === 'ARRIVED') return `${zone.zone_id} — Arrived, wave observed`
   const { minLeft, maxLeft, arrivingNow } = countdownMinutes(etaInfo.prediction.eta_min_ms, etaInfo.prediction.eta_max_ms, Date.now())
-  return arrivingNow ? `${zone.zone_id} — Arriving now` : `${zone.zone_id} — Impact in ${minLeft}-${maxLeft} min`
+  const verb = etaInfo.prediction.forecast_type === 'EARLY_WARNING' ? 'Possible impact' : 'Impact'
+  return arrivingNow ? `${zone.zone_id} — Arriving now` : `${zone.zone_id} — ${verb} in ${minLeft}-${maxLeft} min`
 }
 
 export default function DownstreamChain({ zones, etaEvents = {}, selectedZoneId, onSelectZone }) {
@@ -26,7 +28,7 @@ export default function DownstreamChain({ zones, etaEvents = {}, selectedZoneId,
           return (
             <div className="downstream-chain-item" key={zoneId}>
               <button
-                className={`downstream-chain-node${zoneId === selectedZoneId ? ' selected' : ''}${etaInfo?.type === 'FORECAST' ? ' eta-pending' : ''}`}
+                className={`downstream-chain-node${zoneId === selectedZoneId ? ' selected' : ''}${etaInfo?.type === 'FORECAST' || etaInfo?.type === 'WATCH_SOURCE' ? ' eta-pending' : ''}`}
                 style={{ '--node-color': statusColor(zone.operational_status) }}
                 onClick={() => onSelectZone(zoneId)}
                 title={etaTooltip(zone, etaInfo)}
