@@ -1,7 +1,7 @@
-// Client-side store backed by the real CascadeGuard API instead of an
+﻿// Client-side store backed by the real CascadeGuard API instead of an
 // in-browser simulation. Keeps the same subscribe/getSnapshot shape the old
 // mockStore had so App.jsx and useDashboardStore don't need to change their
-// interaction pattern — only where the data comes from changes.
+// interaction pattern â€” only where the data comes from changes.
 import {
   getHealth,
   getZones,
@@ -23,12 +23,12 @@ const EARLY_WARNING_REACH = 3
 // The backend gateway (packet_gateway.py) already produces `eta` /
 // `eta_observation` when hardware packets flow through /ingest, but the
 // dashboard's live simulation loop (backend/main.py) evaluates the risk
-// engine directly and never calls the ETA engine — so nothing reaches this
+// engine directly and never calls the ETA engine â€” so nothing reaches this
 // dashboard today. Rather than touch backend files, we watch for the exact
 // same two triggers the real gateway uses and run the same physics (ported
 // in utils/etaEngine.js) client-side. This is a mock in the sense that the
 // computation runs in the browser, but the math, thresholds and inputs are
-// identical to the backend's — swapping to a real `/eta` endpoint later just
+// identical to the backend's â€” swapping to a real `/eta` endpoint later just
 // means replacing this derivation with the response's `eta`/`eta_observation`
 // fields instead of computing them here.
 
@@ -46,7 +46,7 @@ function mergeEvents(backendEvents, localEvents) {
 
 // Mirrors PacketGateway.find_active_source: the nearest active upstream
 // surge event that hasn't already observed this zone. Only real SURGE
-// events get recalibrated by a sensor observation — a WATCH-triggered
+// events get recalibrated by a sensor observation â€” a WATCH-triggered
 // preliminary estimate has nothing confirmed to calibrate against.
 function findActiveSource(etaEvents, observedZoneId) {
   const observedNumber = zoneNumber(observedZoneId)
@@ -69,7 +69,7 @@ function advanceEta(prevZonesById, nextZonesById, prevEtaEvents, nowMs) {
   // missing previous reading reads as "was safe/not watch" and every zone
   // already in a non-safe state (e.g. MEL_Z03's demo seed, which starts
   // mid-blockage on purpose) looks like it "just transitioned" right now.
-  // That's fine, even desirable, for the SURGE and WATCH loops below — a
+  // That's fine, even desirable, for the SURGE and WATCH loops below â€” a
   // freshly connected dashboard treating current conditions as its starting
   // point is reasonable, and it's what makes a fresh reset immediately
   // demoable instead of requiring a throwaway Normal->Blockage cycle first.
@@ -90,7 +90,7 @@ function advanceEta(prevZonesById, nextZonesById, prevEtaEvents, nowMs) {
 
     if (isSurging && !wasSurging) {
       // A fresh false->true edge always starts a new event, overwriting any
-      // stale one for this source zone — e.g. the zone was cycled back to
+      // stale one for this source zone â€” e.g. the zone was cycled back to
       // Normal and surged again in the same browser tab. Without this, a
       // second surge on the same zone would silently reuse (and never
       // update) whatever event fired the first time.
@@ -99,52 +99,21 @@ function advanceEta(prevZonesById, nextZonesById, prevEtaEvents, nowMs) {
         ...etaEvents,
         [zoneId]: { kind: 'SURGE', sourceZone: zoneId, sourceTimeMs: nowMs, predictions, observations: {} },
       }
-      newLocalEvents.push(makeLocalEvent(`Surge detected at ${zoneId} — ETA engine activated`, nowMs))
+      newLocalEvents.push(makeLocalEvent(`Surge detected at ${zoneId} â€” ETA engine activated`, nowMs))
       if (predictions.length) {
         const first = predictions[0]
         newLocalEvents.push(makeLocalEvent(
-          `Initial ETA generated: ${first.zone_id} in ${first.travel_time_min_minutes}–${first.travel_time_max_minutes} min (physics-informed)`,
+          `Initial ETA generated: ${first.zone_id} in ${first.travel_time_min_minutes}â€“${first.travel_time_max_minutes} min (physics-informed)`,
           nowMs,
         ))
       }
     } else if (!isSurging && wasSurging && etaEvents[zoneId]?.kind === 'SURGE') {
       // The condition that started this event is no longer active (e.g. the
-      // zone was dialed back to Normal) — retract the in-flight forecast
+      // zone was dialed back to Normal) â€” retract the in-flight forecast
       // rather than leaving a stale arrival window on screen forever.
       const { [zoneId]: _removed, ...rest } = etaEvents
       etaEvents = rest
-      newLocalEvents.push(makeLocalEvent(`ETA forecast cleared for ${zoneId} — surge conditions resolved`, nowMs))
-    }
-  }
-
-  // Broader, earlier signal: ANY zone turning WATCH (yellow) — whatever the
-  // cause, not just a confirmed blockage/surge upstream — gives its own
-  // next few downstream zones a preliminary heads-up, using the exact same
-  // physics as a confirmed forecast, just triggered sooner and never
-  // sensor-calibrated. This never touches operational_status/color — it's
-  // a second, independent event kind so it can't collide with (or get
-  // overwritten by) a real SURGE event for the same zone.
-  for (const zoneId of Object.keys(nextZonesById)) {
-    const zone = nextZonesById[zoneId]
-    const wasWatch = prevZonesById[zoneId]?.operational_status === 'WATCH'
-    const isWatch = zone.operational_status === 'WATCH'
-
-    if (isWatch && !wasWatch) {
-      const predictions = predict(zoneId, nowMs, EARLY_WARNING_REACH).map((p) => ({ ...p, forecast_type: 'EARLY_WARNING' }))
-      etaEvents = {
-        ...etaEvents,
-        [zoneId]: { kind: 'WATCH', sourceZone: zoneId, sourceTimeMs: nowMs, predictions, observations: {} },
-      }
-      if (predictions.length) {
-        newLocalEvents.push(makeLocalEvent(
-          `${zoneId} on watch — preliminary arrival estimate issued for ${predictions.map((p) => p.zone_id).join(', ')}`,
-          nowMs,
-        ))
-      }
-    } else if (!isWatch && wasWatch && etaEvents[zoneId]?.kind === 'WATCH') {
-      const { [zoneId]: _removed, ...rest } = etaEvents
-      etaEvents = rest
-      newLocalEvents.push(makeLocalEvent(`Preliminary ETA cleared for ${zoneId} — no longer on watch`, nowMs))
+      newLocalEvents.push(makeLocalEvent(`ETA forecast cleared for ${zoneId} â€” surge conditions resolved`, nowMs))
     }
   }
 
@@ -166,7 +135,7 @@ function advanceEta(prevZonesById, nextZonesById, prevEtaEvents, nowMs) {
     try {
       ;({ observation, predictions } = updateFromObservation(sourceZone, zoneId, event.sourceTimeMs, nowMs, 4))
     } catch (error) {
-      // Physically impossible observation (e.g. clock skew) — skip this
+      // Physically impossible observation (e.g. clock skew) â€” skip this
       // zone rather than aborting the whole poll cycle.
       console.error(`ETA observation skipped for ${zoneId}:`, error.message)
       continue
@@ -182,7 +151,7 @@ function advanceEta(prevZonesById, nextZonesById, prevEtaEvents, nowMs) {
     }
 
     newLocalEvents.push(makeLocalEvent(
-      `Wave observed at ${zoneId} — ETA recalibrated (observed ${observation.observed_celerity_m_s} m/s)`,
+      `Wave observed at ${zoneId} â€” ETA recalibrated (observed ${observation.observed_celerity_m_s} m/s)`,
       nowMs,
     ))
   }
@@ -341,3 +310,4 @@ function createStore() {
 }
 
 export const dashboardStore = createStore()
+
